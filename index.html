@@ -546,7 +546,7 @@
 
             filteredData = combinedTwitterData.filter(tweet => {
                 // リプライのフィルタリング
-                if (!showReplies && tweet.text.startsWith('@')) {
+                if (!showReplies && tweet.text.includes('@')) {
                     return false;
                 }
 
