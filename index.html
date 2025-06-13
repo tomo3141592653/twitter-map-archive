@@ -305,6 +305,7 @@
                 <button class="filter-btn active" data-filter="all">全て</button>
                 <button class="filter-btn" data-filter="image">📷 画像あり</button>
                 <button class="filter-btn" data-filter="text">💬 テキストのみ</button>
+                <button class="filter-btn" data-filter="reply">↩️ リプライも表示</button>
             </div>
         </div>
 
@@ -362,6 +363,7 @@
         let markersGroup = L.layerGroup().addTo(map);
         let filteredData = [...combinedTwitterData];
         let currentImageFilter = 'all'; // all, image, text
+        let showReplies = false; // リプライ表示フラグ
 
         // 画像モーダル関数
         function openModal(imageSrc) {
@@ -522,8 +524,8 @@
             const searchText = document.getElementById('searchText').value.toLowerCase();
 
             filteredData = combinedTwitterData.filter(tweet => {
-                // リプライを除外
-                if (tweet.text.startsWith('@')) {
+                // リプライのフィルタリング
+                if (!showReplies && tweet.text.startsWith('@')) {
                     return false;
                 }
 
@@ -556,11 +558,24 @@
             const filterButtons = document.querySelectorAll('.filter-btn');
             filterButtons.forEach(btn => {
                 btn.addEventListener('click', function () {
-                    // アクティブ状態の切り替え
-                    filterButtons.forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
+                    const filter = this.dataset.filter;
 
-                    currentImageFilter = this.dataset.filter;
+                    if (filter === 'reply') {
+                        // リプライ表示の切り替え
+                        showReplies = !showReplies;
+                        this.classList.toggle('active');
+                        this.textContent = showReplies ? '↩️ リプライを隠す' : '↩️ リプライも表示';
+                    } else {
+                        // 画像フィルターの切り替え
+                        filterButtons.forEach(b => {
+                            if (b.dataset.filter !== 'reply') {
+                                b.classList.remove('active');
+                            }
+                        });
+                        this.classList.add('active');
+                        currentImageFilter = filter;
+                    }
+
                     applyFilters();
                 });
             });
