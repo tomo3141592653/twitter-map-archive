@@ -119,6 +119,7 @@
             font-size: 14px;
             color: #666;
             border-bottom: 1px solid #eee;
+            transition: transform 0.3s ease;
         }
 
         #map {
@@ -255,6 +256,19 @@
             }
 
             .controls.show {
+                transform: translateY(0);
+            }
+
+            .stats {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                transform: translateY(-100%);
+                z-index: 999;
+            }
+
+            .stats.show {
                 transform: translateY(0);
             }
 
@@ -586,8 +600,12 @@
         document.getElementById('resetView').addEventListener('click', resetView);
         document.getElementById('toggleControls').addEventListener('click', function () {
             const controls = document.querySelector('.controls');
+            const stats = document.getElementById('stats');
+            const isShowing = controls.classList.contains('show');
+
             controls.classList.toggle('show');
-            this.textContent = controls.classList.contains('show') ? '🔍 検索パネルを隠す' : '🔍 検索パネル';
+            stats.classList.toggle('show');
+            this.textContent = isShowing ? '🔍 検索パネル' : '✕ 閉じる';
         });
 
         // ESCキーでモーダルを閉じる
