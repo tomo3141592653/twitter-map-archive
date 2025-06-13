@@ -522,6 +522,11 @@
             const searchText = document.getElementById('searchText').value.toLowerCase();
 
             filteredData = combinedTwitterData.filter(tweet => {
+                // リプライを除外
+                if (tweet.text.startsWith('@')) {
+                    return false;
+                }
+
                 const yearMatch = yearFilter === 'all' || tweet.year.toString() === yearFilter;
                 const textMatch = searchText === '' || tweet.text.toLowerCase().includes(searchText);
 
