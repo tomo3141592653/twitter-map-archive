@@ -46,6 +46,22 @@
             align-items: center;
             gap: 20px;
             flex-wrap: wrap;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-controls {
+            display: none;
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 1000;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         .control-group {
@@ -220,12 +236,30 @@
 
         @media (max-width: 768px) {
             .header h1 {
-                font-size: 2em;
+                font-size: 1.5em;
+                padding: 0 10px;
+            }
+
+            .header {
+                padding: 15px 10px;
             }
 
             .controls {
-                flex-direction: column;
-                gap: 10px;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                transform: translateY(-100%);
+                z-index: 1000;
+                padding: 20px;
+            }
+
+            .controls.show {
+                transform: translateY(0);
+            }
+
+            .toggle-controls {
+                display: block;
             }
 
             .filter-buttons {
@@ -237,6 +271,10 @@
                 right: 10px;
                 font-size: 11px;
             }
+
+            #map {
+                height: calc(100vh - 120px);
+            }
         }
     </style>
 </head>
@@ -245,6 +283,8 @@
     <div class="header">
         <h1>🗺️ ツイート地図 @tomo3141592653</h1>
     </div>
+
+    <button class="toggle-controls" id="toggleControls">🔍 検索パネル</button>
 
     <div class="controls">
         <div class="control-group">
@@ -525,6 +565,11 @@
         document.getElementById('yearFilter').addEventListener('change', applyFilters);
         document.getElementById('searchText').addEventListener('input', applyFilters);
         document.getElementById('resetView').addEventListener('click', resetView);
+        document.getElementById('toggleControls').addEventListener('click', function () {
+            const controls = document.querySelector('.controls');
+            controls.classList.toggle('show');
+            this.textContent = controls.classList.contains('show') ? '🔍 検索パネルを隠す' : '🔍 検索パネル';
+        });
 
         // ESCキーでモーダルを閉じる
         document.addEventListener('keydown', function (event) {
