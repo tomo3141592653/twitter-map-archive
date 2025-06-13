@@ -29,6 +29,7 @@
             margin: 0;
             font-size: 2.5em;
             font-weight: 300;
+            white-space: nowrap;
         }
 
         .header p {
@@ -237,12 +238,18 @@
 
         @media (max-width: 768px) {
             .header h1 {
-                font-size: 1.5em;
+                font-size: 1.2em;
                 padding: 0 10px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             .header {
                 padding: 15px 10px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
 
             .controls {
