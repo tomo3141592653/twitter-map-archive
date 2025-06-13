@@ -321,7 +321,6 @@
         </div>
 
         <div class="control-group">
-            <label>表示フィルター:</label>
             <div class="filter-buttons">
                 <button class="filter-btn active" data-filter="all">全て</button>
                 <button class="filter-btn" data-filter="image">📷 画像あり</button>
@@ -333,7 +332,7 @@
         <div class="control-group">
             <button id="resetView"
                 style="background: #667eea; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer;">
-                全体表示にリセット
+                ✕ 閉じる
             </button>
         </div>
     </div>
@@ -604,7 +603,13 @@
         // イベントリスナー
         document.getElementById('yearFilter').addEventListener('change', applyFilters);
         document.getElementById('searchText').addEventListener('input', applyFilters);
-        document.getElementById('resetView').addEventListener('click', resetView);
+        document.getElementById('resetView').addEventListener('click', function () {
+            const controls = document.querySelector('.controls');
+            const stats = document.getElementById('stats');
+            controls.classList.remove('show');
+            stats.classList.remove('show');
+            document.getElementById('toggleControls').textContent = '🔍 検索パネル';
+        });
         document.getElementById('toggleControls').addEventListener('click', function () {
             const controls = document.querySelector('.controls');
             const stats = document.getElementById('stats');
